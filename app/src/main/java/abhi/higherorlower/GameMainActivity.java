@@ -99,24 +99,8 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.highButton:
                 drawCard();
-                score = score + 1;
-                String scr1 = String.valueOf(score);
-                tvScore.setText(scr1);
-                tvResult.setText(R.string.result_high1);
-                if (highScore < score)
-                {
-                    highScore =score;
-                    String highScr = String.valueOf(highScore);
-                    tvHighScore.setText(highScr);
-                }
-                else
-                {
-                    String highScr = String.valueOf(highScore);
-                    tvHighScore.setText(highScr);
-                }
 
-
-               /* if (nextCard > startingCard)
+                if (nextCard > startingCard)
                 {
                     score = score + 1;
                     String scr = String.valueOf(score);
@@ -156,7 +140,7 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
 
                 }
 
-                    startingCard = nextCard;*/
+                    startingCard = nextCard;
                 break;
 
 
