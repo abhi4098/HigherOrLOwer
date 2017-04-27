@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Higher Or Lower</string>
+    <string name="result_low">Low</string>
+    <string name="next_card">Next Card</string>
+    <string name="result_high1">High</string>
+    <string name="result_same">Same Card</string>
+    <string name="result_ace">ACE</string>
+    <string name="low">Low</string>
+    <string name="play_again">Play Again</string>
+    <string name="new_game">New Game</string>
+    <string name="settings">Settings</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="exit_game">Exit</string>
+    <string name="higher_or_lower">Higher Or Lower</string>
+</resources>
