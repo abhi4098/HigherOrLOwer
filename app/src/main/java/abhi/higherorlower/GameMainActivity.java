@@ -28,7 +28,7 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
     TextView tvScore;
     TextView tvHighScore;
     TextView tvResult;
-    TextView tvTitle;
+   
 
 
 
