@@ -10,11 +10,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import static android.R.attr.value;
 
-public class GameOverActivity extends AppCompatActivity {
+public class GameOverActivity extends AppCompatActivity implements View.OnClickListener {
     int highScore =0;
+    TextView tvFinalScore;
+    TextView tvHighScore;
+    ImageButton ibtnReplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +28,23 @@ public class GameOverActivity extends AppCompatActivity {
         Intent mIntent = getIntent();
         int score = mIntent.getIntExtra("intVariableName", 0);
 
+        tvFinalScore = (TextView) findViewById(R.id.final_score);
+        tvHighScore = (TextView) findViewById(R.id.high_score);
+        ibtnReplay = (ImageButton) findViewById(R.id.replay_button);
+        ibtnReplay.setOnClickListener(this);
 
+        tvFinalScore.setText("Score : " +score);
         LoadHighScore();
         if(score > highScore)
         {
             highScore = score;
             SaveHighScore("high score", highScore);
+            tvHighScore.setText("High Score : " +highScore);
 
+        }
+        else
+        {
+            tvHighScore.setText("High Score : " +highScore);
         }
     }
 
@@ -55,4 +70,10 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        Intent intent= new Intent(GameOverActivity.this , StartActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

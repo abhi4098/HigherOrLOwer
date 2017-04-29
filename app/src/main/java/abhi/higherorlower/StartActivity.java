@@ -16,6 +16,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     Button newGamebutton;
     Button exitGameButton;
+    Button tutorialButton;
+
+
     int highScore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +26,10 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_start);
         newGamebutton = (Button) findViewById(R.id.new_game);
         exitGameButton = (Button) findViewById(R.id.exit_game);
+        tutorialButton = (Button) findViewById(R.id.tutorial);
         exitGameButton.setOnClickListener(this);
         newGamebutton.setOnClickListener(this);
+        tutorialButton.setOnClickListener(this);
     }
 
     @Override
@@ -33,7 +38,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.new_game:
                 LoadHighScore();
-                Log.e("abhi", "onClick: start game high score" + highScore);
                 Intent intent = new Intent(StartActivity.this, GameMainActivity.class);
                 intent.putExtra("intVariableName", highScore);
                 startActivity(intent);
@@ -41,6 +45,11 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.exit_game:
                 ExitGame();
+                break;
+
+            case R.id.tutorial:
+                Intent intent1 = new Intent(StartActivity.this, TutorialActivity.class);
+                startActivity(intent1);
                 break;
 
             default:
@@ -67,7 +76,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        StartActivity.this.finish();
+                        finishAffinity();
+                        //StartActivity.this.finish();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -2,6 +2,7 @@ package abhi.higherorlower;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,17 +10,20 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameMainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private Button highButton;
-    private Button lowButton;
-    private ImageView cardImage;
+    ImageButton highButton;
+    ImageButton lowButton;
+    ImageView playingCardView;
     int startingCard = 7;
     int randomCard;
     int nextCard;
@@ -27,8 +31,8 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
     int highScore = 0;
     TextView tvScore;
     TextView tvHighScore;
-    TextView tvResult;
-   
+    Button tvResult;
+    List<Integer> genCardList = new ArrayList<>();
 
 
 
@@ -75,19 +79,38 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
         highScore = mIntent.getIntExtra("intVariableName", 0);
 
 
-        highButton  = (Button)findViewById(R.id.highButton);
-        lowButton   = (Button) findViewById(R.id.lowButton);
-        cardImage   = (ImageView)findViewById(R.id.playingCard);
+        highButton  = (ImageButton) findViewById(R.id.highButton);
+        lowButton   = (ImageButton) findViewById(R.id.lowButton);
         tvScore   = (TextView) findViewById(R.id.tvscore);
         tvHighScore = (TextView) findViewById(R.id.highest_score);
-        tvResult = (TextView) findViewById(R.id.result);
-
-
-
+        tvResult = (Button) findViewById(R.id.result);
+        playingCardView = (ImageView) findViewById(R.id.playingCard);
         highButton.setOnClickListener(this);
         lowButton.setOnClickListener(this);
+        highButton.setEnabled(false);
+        lowButton.setEnabled(false);
+
+            tvResult.setText(R.string.new_deck);
+            playingCardView.setImageResource(R.drawable.new_deck_red_final);
+            playingCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    genCardList.clear();
+                    playingCardView.setImageResource(R.drawable.d27);
+                    highButton.setEnabled(true);
+                    lowButton.setEnabled(true);
+                    playingCardView.setClickable(false);
+
+                }
+            });
+
+
+
+
+
         String highScr = String.valueOf(highScore);
         tvHighScore.setText(highScr);
+
 
     }
 
@@ -98,14 +121,47 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
 
 
             case R.id.highButton:
-                drawCard();
 
+                if (genCardList.size() == 52 )
+                {
+                    tvResult.setText(R.string.new_deck);
+                    playingCardView.setImageResource(R.drawable.new_deck_red_final);
+                    playingCardView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            genCardList.clear();
+                            playingCardView.setImageResource(R.drawable.d27);
+                            playingCardView.setClickable(false);
+                        }
+                    });
+
+                }
+
+                else {
+                    drawCard();
+
+                  /*  score = score + 1;
+                    String scr1 = String.valueOf(score);
+                    tvScore.setText(scr1);
+                    tvResult.setText(R.string.result_high1);
+
+
+                    if (highScore < score) {
+                        highScore = score;
+                        String highScr = String.valueOf(highScore);
+                        tvHighScore.setText(highScr);
+                    } else {
+                        String highScr = String.valueOf(highScore);
+                        tvHighScore.setText(highScr);
+                    }*/
                 if (nextCard > startingCard)
                 {
                     score = score + 1;
                     String scr = String.valueOf(score);
                     tvScore.setText(scr);
                     tvResult.setText(R.string.result_high1);
+
+
                     if (highScore < score)
                     {
                         highScore =score;
@@ -141,96 +197,139 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                     startingCard = nextCard;
+                }
                 break;
 
 
 
             case R.id.lowButton:
-                   drawCard();
-
-                if (nextCard < startingCard)
+                if (genCardList.size() == 52)
                 {
-                    score = score + 1;
-                    String scr = String.valueOf(score);
-                    tvScore.setText(scr);
-                    tvResult.setText(R.string.result_low);
-
-                    if (highScore < score)
-                    {
-                        highScore =score;
-                        String highScr = String.valueOf(highScore);
-                        tvHighScore.setText(highScr);
-                    }
-                    else
-                    {
-                        String highScr = String.valueOf(highScore);
-                        tvHighScore.setText(highScr);
-                    }
+                    tvResult.setText(R.string.new_deck);
+                    playingCardView.setImageResource(R.drawable.new_deck_red_final);
+                    playingCardView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            genCardList.clear();
+                            playingCardView.setImageResource(R.drawable.d27);
+                            playingCardView.setClickable(false);
+                        }
+                    });
 
                 }
 
 
-                else if (nextCard == startingCard )
+                else
+
+                {
+                    drawCard();
+
+                    if (nextCard < startingCard) {
+                        score = score + 1;
+                        String scr = String.valueOf(score);
+                        tvScore.setText(scr);
+                        tvResult.setText(R.string.result_low);
+
+                        if (highScore < score) {
+                            highScore = score;
+                            String highScr = String.valueOf(highScore);
+                            tvHighScore.setText(highScr);
+                        } else {
+                            String highScr = String.valueOf(highScore);
+                            tvHighScore.setText(highScr);
+                        }
+
+                    } else if (nextCard == startingCard)
                         tvResult.setText(R.string.result_same);
 
-                else if (nextCard == 1)
+                    else if (nextCard == 1)
                         tvResult.setText(R.string.result_ace);
 
 
-                else {
-                    tvResult.setText(R.string.result_high1);
-                    Intent intent = new Intent(GameMainActivity.this, GameOverActivity.class);
-                    intent.putExtra("intVariableName", score);
-                    score =0;
-                    tvScore.setText(" 0");
-                    startActivity(intent);
-                    finish();
-                }
+                    else {
+                        tvResult.setText(R.string.result_high1);
+                        Intent intent = new Intent(GameMainActivity.this, GameOverActivity.class);
+                        intent.putExtra("intVariableName", score);
+                        score = 0;
+                        tvScore.setText(" 0");
+                        startActivity(intent);
+                        finish();
+                    }
 
-                startingCard = nextCard;
+                    startingCard = nextCard;
+                }
                 break;
+
+
             default:
                 throw new RuntimeException("Unknow button ID");
         }
     }
 
 
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     private void drawCard() {
         randomCard = random.nextInt(cardDeck.length);
-        cardImage.setImageResource(cardDeck[randomCard]);
+        playingCardView.setImageResource(cardDeck[randomCard]);
         nextCard = randomCard + 1;
-        if (nextCard==1||nextCard ==2||nextCard ==3||nextCard ==4 )
-            nextCard =1;
-        else if (nextCard==5||nextCard ==6||nextCard ==7||nextCard ==8 )
-            nextCard =2;
-        else if (nextCard==9||nextCard ==10||nextCard ==11||nextCard ==12 )
-            nextCard =3;
-        else if (nextCard==13||nextCard ==14||nextCard ==15||nextCard ==16 )
-            nextCard =4;
-        else if (nextCard==17||nextCard ==18||nextCard ==19||nextCard ==20 )
-            nextCard =5;
-        else if (nextCard==21||nextCard ==22||nextCard ==23||nextCard ==24 )
-            nextCard =6;
-        else if (nextCard==25||nextCard ==26||nextCard ==27||nextCard ==28 )
-            nextCard =7;
-        else if (nextCard==29||nextCard ==30||nextCard ==31||nextCard ==32 )
-            nextCard =8;
-        else if (nextCard==33||nextCard ==34||nextCard ==35||nextCard ==36 )
-            nextCard =9;
-        else if (nextCard==37||nextCard ==38||nextCard ==39||nextCard ==40 )
-            nextCard =10;
-        else if (nextCard==41||nextCard ==42||nextCard ==43||nextCard ==44 )
-            nextCard =11;
-        else if (nextCard==45||nextCard ==46||nextCard ==47||nextCard ==48 )
-            nextCard =12;
+        Log.e("card", "drawCard: " + nextCard );
+
+        if (genCardList.contains(nextCard))
+        {
+           // Log.e("card", "drawCard: same card is generated again " );
+            drawCard();
+        }
         else
-            nextCard =13;
-        Log.e("abhi", "next card "+nextCard );
+
+        {
+            genCardList.add(nextCard);
+           // int genCardListSize = genCardList.size();
+           // Log.e("card", "drawCard:  list size" + genCardListSize );
+
+           /* for (int i = 0; i<genCardListSize; i++){
+                Log.e("card", "drawCard:  elements" + genCardList.get(i) );
+               *//* if (genCardListSize == 52)
+                {
+                    tvResult.setText(R.string.new_deck);
+                    playingCardView.setOnClickListener(this);
+                }*//*
+            }
+*/
+
+
+            if (nextCard == 1 || nextCard == 2 || nextCard == 3 || nextCard == 4)
+                nextCard = 1;
+            else if (nextCard == 5 || nextCard == 6 || nextCard == 7 || nextCard == 8)
+                nextCard = 2;
+            else if (nextCard == 9 || nextCard == 10 || nextCard == 11 || nextCard == 12)
+                nextCard = 3;
+            else if (nextCard == 13 || nextCard == 14 || nextCard == 15 || nextCard == 16)
+                nextCard = 4;
+            else if (nextCard == 17 || nextCard == 18 || nextCard == 19 || nextCard == 20)
+                nextCard = 5;
+            else if (nextCard == 21 || nextCard == 22 || nextCard == 23 || nextCard == 24)
+                nextCard = 6;
+            else if (nextCard == 25 || nextCard == 26 || nextCard == 27 || nextCard == 28)
+                nextCard = 7;
+            else if (nextCard == 29 || nextCard == 30 || nextCard == 31 || nextCard == 32)
+                nextCard = 8;
+            else if (nextCard == 33 || nextCard == 34 || nextCard == 35 || nextCard == 36)
+                nextCard = 9;
+            else if (nextCard == 37 || nextCard == 38 || nextCard == 39 || nextCard == 40)
+                nextCard = 10;
+            else if (nextCard == 41 || nextCard == 42 || nextCard == 43 || nextCard == 44)
+                nextCard = 11;
+            else if (nextCard == 45 || nextCard == 46 || nextCard == 47 || nextCard == 48)
+                nextCard = 12;
+            else
+                nextCard = 13;
+            Log.e("abhi", "next card " + nextCard);
+
+        }
 
 
     }
