@@ -66,7 +66,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     public void LoadHighScore(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         highScore = sharedPreferences.getInt("high score", 0);
-        Log.e("abhi", "LoadHighScore: " +highScore );
     }
 
     public void ExitGame()

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -37,11 +38,13 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
 
 
 
+
+
     // Random object
     private final static Random random = new Random();
 
     // The card deck
-    private final static int[] cardDeck = new int[] {
+    private final static Integer[] cardDeck = new Integer[] {
             R.drawable.d1, R.drawable.d2,
             R.drawable.d3, R.drawable.d4,
             R.drawable.d5, R.drawable.d6,
@@ -70,6 +73,7 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
             R.drawable.d51, R.drawable.d52
     }; // K card resource
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +81,6 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
         ((TextView) findViewById(R.id.main_toolbar_title)).setText(R.string.higher_or_lower);
         Intent mIntent = getIntent();
         highScore = mIntent.getIntExtra("intVariableName", 0);
-
-
         highButton  = (ImageButton) findViewById(R.id.highButton);
         lowButton   = (ImageButton) findViewById(R.id.lowButton);
         tvScore   = (TextView) findViewById(R.id.tvscore);
@@ -140,25 +142,11 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                 else {
                     drawCard();
 
-                  /*  score = score + 1;
-                    String scr1 = String.valueOf(score);
-                    tvScore.setText(scr1);
-                    tvResult.setText(R.string.result_high1);
-
-
-                    if (highScore < score) {
-                        highScore = score;
-                        String highScr = String.valueOf(highScore);
-                        tvHighScore.setText(highScr);
-                    } else {
-                        String highScr = String.valueOf(highScore);
-                        tvHighScore.setText(highScr);
-                    }*/
-                if (nextCard > startingCard)
+                if (nextCard > startingCard && nextCard != 1)
                 {
                     score = score + 1;
-                    String scr = String.valueOf(score);
-                    tvScore.setText(scr);
+                    String scr1= String.valueOf(score);
+                    tvScore.setText(scr1);
                     tvResult.setText(R.string.result_high1);
 
 
@@ -224,7 +212,7 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                 {
                     drawCard();
 
-                    if (nextCard < startingCard) {
+                    if (nextCard < startingCard && nextCard != 1) {
                         score = score + 1;
                         String scr = String.valueOf(score);
                         tvScore.setText(scr);
@@ -239,7 +227,9 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                             tvHighScore.setText(highScr);
                         }
 
-                    } else if (nextCard == startingCard)
+                    }
+
+                    else if (nextCard == startingCard)
                         tvResult.setText(R.string.result_same);
 
                     else if (nextCard == 1)
@@ -276,29 +266,17 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
         randomCard = random.nextInt(cardDeck.length);
         playingCardView.setImageResource(cardDeck[randomCard]);
         nextCard = randomCard + 1;
-        Log.e("card", "drawCard: " + nextCard );
+
 
         if (genCardList.contains(nextCard))
         {
-           // Log.e("card", "drawCard: same card is generated again " );
             drawCard();
         }
         else
 
         {
             genCardList.add(nextCard);
-           // int genCardListSize = genCardList.size();
-           // Log.e("card", "drawCard:  list size" + genCardListSize );
 
-           /* for (int i = 0; i<genCardListSize; i++){
-                Log.e("card", "drawCard:  elements" + genCardList.get(i) );
-               *//* if (genCardListSize == 52)
-                {
-                    tvResult.setText(R.string.new_deck);
-                    playingCardView.setOnClickListener(this);
-                }*//*
-            }
-*/
 
 
             if (nextCard == 1 || nextCard == 2 || nextCard == 3 || nextCard == 4)
@@ -327,7 +305,7 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                 nextCard = 12;
             else
                 nextCard = 13;
-            Log.e("abhi", "next card " + nextCard);
+
 
         }
 
