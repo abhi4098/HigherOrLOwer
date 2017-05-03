@@ -98,7 +98,9 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onClick(View view) {
                     genCardList.clear();
-                    playingCardView.setImageResource(R.drawable.d27);
+                    //playingCardView.setImageResource(R.drawable.d27);
+                    drawCard();
+                    startingCard = nextCard;
                     highButton.setEnabled(true);
                     lowButton.setEnabled(true);
                     playingCardView.setClickable(false);
@@ -132,7 +134,8 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                         @Override
                         public void onClick(View view) {
                             genCardList.clear();
-                            playingCardView.setImageResource(R.drawable.d27);
+                            drawCard();
+                            startingCard = nextCard;
                             playingCardView.setClickable(false);
                         }
                     });
@@ -199,7 +202,8 @@ public class GameMainActivity extends AppCompatActivity implements View.OnClickL
                         @Override
                         public void onClick(View view) {
                             genCardList.clear();
-                            playingCardView.setImageResource(R.drawable.d27);
+                            drawCard();
+                            startingCard =nextCard;
                             playingCardView.setClickable(false);
                         }
                     });
